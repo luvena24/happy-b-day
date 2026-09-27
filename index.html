@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday My Shining Star ✨</title>
+  <style>
+    :root {
+      --bg-color: #0b0c10;
+      --card-bg: rgba(255, 255, 255, 0.07);
+      --accent-glow: #ff7ebb;
+      --gold-glow: #ffd700;
+      --text-color: #f0f0f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Background Stars & Glowing Canvas */
+    #canvas-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      padding: 25px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 30px rgba(255, 126, 187, 0.2);
+      margin: 20px 0;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: var(--gold-glow);
+      text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+      margin-bottom: 15px;
+    }
+
+    p {
+      line-height: 1.6;
+      font-size: 1.05rem;
+      color: #e0e0e0;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #ff7ebb, #ff5252);
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 126, 187, 0.5);
+      transition: all 0.3s ease;
+      margin: 10px 5px;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 126, 187, 0.8);
+    }
+
+    /* Screen Sections */
+    .section {
+      display: none;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Puzzle Styling */
+    .puzzle-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      width: 270px;
+      height: 270px;
+      margin: 20px auto;
+      border: 2px solid var(--accent-glow);
+      border-radius: 10px;
+      padding: 5px;
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 20px rgba(255, 126, 187, 0.3);
+    }
+
+    .puzzle-tile {
+      background: linear-gradient(135deg, #3a1c40, #672146);
+      color: var(--gold-glow);
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.2);
+      transition: background 0.2s;
+    }
+
+    .puzzle-tile.empty {
+      background: transparent;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    /* Glowing Flower Display */
+    .flower-box {
+      font-size: 4rem;
+      margin: 15px 0;
+      animation: floatGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatGlow {
+      0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px #ff7ebb); }
+      100% { transform: translateY(-10px) scale(1.1); filter: drop-shadow(0 0 25px #ffd700); }
+    }
+
+    .letter-card {
+      background: rgba(20, 20, 30, 0.7);
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 4px solid var(--accent-glow);
+      text-align: left;
+      font-style: italic;
+      margin-top: 15px;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Canvas Background for Glowing Magic Flowers & Stars -->
+  <canvas id="canvas-bg"></canvas>
+
+  <div class="container">
+    <!-- SECTION 1: WELCOME & MUSIC START -->
+    <div id="sec-start" class="section active">
+      <div class="flower-box">🌸✨</div>
+      <h1>Hai, Sosok Teristimewa ✨</h1>
+      <p>Ada sebuah kejutan kecil yang memancarkan cahaya khusus untukmu di malam indah ini. Sebelum melangkah lebih jauh, yuk buka pintunya!</p>
+      <button class="btn" onclick="startExperience()">Mulai Kejutan 🎵</button>
+    </div>
+
+    <!-- SECTION 2: PUZZLE GAME -->
+    <div id="sec-puzzle" class="section">
+      <h1>Selesaikan Puzzle Cahaya 🧩</h1>
+      <p>Susun angka 1 sampai 8 dengan urut untuk membocorkan ucapan manis yang tersembunyi!</p>
+      
+      <div class="puzzle-board" id="board"></div>
+      
+      <p id="puzzle-status" style="font-size: 0.9rem; color: #aaa;">Klik kotak di dekat celah kosong untuk menggeser.</p>
+    </div>
+
+    <!-- SECTION 3: BIRTHDAY CARD & GLOWING FLOWERS -->
+    <div id="sec-card" class="section">
+      <div class="flower-box">🌺✨🌼✨🪷</div>
+      <h1>Selamat Ulang Tahun! 🎉</h1>
+      <p style="color: var(--gold-glow); font-weight: bold;">"Seperti Bunga yang Memancarkan Cahaya di Tengah Kegelapan"</p>
+
+      <div class="letter-card">
+        Bumi mungkin sedang gelap, tetapi senyum dan keberadaanmu selalu punya cara untuk menghangatkan dan menerangi segalanya. 
+        <br><br>
+        Di usiamu yang baru ini, aku berdoa agar langkahmu selalu dipeluk kebahagiaan, hatimu selalu dikelilingi kedamaian, dan impianmu mekar satu per satu dengan indahnya—seperti bunga magis yang bersinar terang malam ini.
+        <br><br>
+        Terima kasih sudah menjadi sosok yang begitu luar biasa, hangat, dan indah. Tetaplah bersinar dengan caramu yang anggun ya! ✨💖
+      </div>
+
+      <button class="btn" style="margin-top:20px;" onclick="replayMusic()">Putar Musik Lagi 🎶</button>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================
+       1. CANVAS ANIMATION: GLOWING FLOWERS & STARS
+       ========================================== */
+    const canvas = document.getElementById('canvas-bg');
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Particle & Glowing Flower Setup
+    const particles = [];
+    const flowerIcons = ['🌸', '🌺', '🌼', '🪷', '✨', '⭐'];
+
+    class GlowingParticle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * width;
+        this.y = height + 50;
+        this.size = Math.random() * 20 + 10;
+        this.speedY = Math.random() * 1.5 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 1;
+        this.icon = flowerIcons[Math.floor(Math.random() * flowerIcons.length)];
+        this.opacity = Math.random() * 0.7 + 0.3;
+        this.glowColor = Math.random() > 0.5 ? '#ff7ebb' : '#ffd700';
+      }
+
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        if (this.y < -50) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = this.glowColor;
+        ctx.globalAlpha = this.opacity;
+        ctx.font = `${this.size}px serif`;
+        ctx.fillText(this.icon, this.x, this.y);
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 35; i++) {
+      let p = new GlowingParticle();
+      p.y = Math.random() * height; // initial random position
+      particles.push(p);
+    }
+
+    function animateBg() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateBg);
+    }
+    animateBg();
+
+    /* ==========================================
+       2. AUDIO SYNTHESIZER (HAPPY BIRTHDAY MELODY)
+       ========================================== */
+    let audioCtx = null;
+
+    function playNote(freq, duration, delay) {
+      setTimeout(() => {
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      }, delay);
+    }
+
+    function playHappyBirthday() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      
+      // Notes frequency map (Hz)
+      const notes = {
+        C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23,
+        G4: 392.00, A4: 440.00, A4s: 466.16, B4: 493.88,
+        C5: 523.25
+      };
+
+      const song = [
+        { note: notes.C4, duration: 0.4, delay: 0 },
+        { note: notes.C4, duration: 0.4, delay: 400 },
+        { note: notes.D4, duration: 0.8, delay: 800 },
+        { note: notes.C4, duration: 0.8, delay: 1600 },
+        { note: notes.F4, duration: 0.8, delay: 2400 },
+        { note: notes.E4, duration: 1.2, delay: 3200 },
+
+        { note: notes.C4, duration: 0.4, delay: 4400 },
+        { note: notes.C4, duration: 0.4, delay: 4800 },
+        { note: notes.D4, duration: 0.8, delay: 5200 },
+        { note: notes.C4, duration: 0.8, delay: 6000 },
+        { note: notes.G4, duration: 0.8, delay: 6800 },
+        { note: notes.F4, duration: 1.2, delay: 7600 },
+
+        { note: notes.C4, duration: 0.4, delay: 8800 },
+        { note: notes.C4, duration: 0.4, delay: 9200 },
+        { note: notes.C5, duration: 0.8, delay: 9600 },
+        { note: notes.A4, duration: 0.8, delay: 10400 },
+        { note: notes.F4, duration: 0.8, delay: 11200 },
+        { note: notes.E4, duration: 0.8, delay: 12000 },
+        { note: notes.D4, duration: 0.8, delay: 12800 },
+
+        { note: notes.A4s, duration: 0.4, delay: 13800 },
+        { note: notes.A4s, duration: 0.4, delay: 14200 },
+        { note: notes.A4, duration: 0.8, delay: 14600 },
+        { note: notes.F4, duration: 0.8, delay: 15400 },
+        { note: notes.G4, duration: 0.8, delay: 16200 },
+        { note: notes.F4, duration: 1.2, delay: 17000 },
+      ];
+
+      song.forEach(s => playNote(s.note, s.duration, s.delay));
+    }
+
+    function replayMusic() {
+      playHappyBirthday();
+    }
+
+    /* ==========================================
+       3. NAVIGATION & FLOW
+       ========================================== */
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function startExperience() {
+      playHappyBirthday();
+      showSection('sec-puzzle');
+      initPuzzle();
+    }
+
+    /* ==========================================
+       4. PUZZLE GAME LOGIC (3x3 Sliding Puzzle)
+       ========================================== */
+    let tiles = [1, 2, 3, 4, 5, 6, 7, 8, ''];
+    const goalState = "1,2,3,4,5,6,7,8,";
+
+    function shuffleTiles() {
+      // Simple solvable shuffle
+      tiles = [1, 2, 3, 4, 8, 5, 7, '', 6];
+    }
+
+    function renderPuzzle() {
+      const board = document.getElementById('board');
+      board.innerHTML = '';
+      tiles.forEach((tile, index) => {
+        const div = document.createElement('div');
+        div.className = `puzzle-tile ${tile === '' ? 'empty' : ''}`;
+        div.innerText = tile;
+        div.onclick = () => moveTile(index);
+        board.appendChild(div);
+      });
+    }
+
+    function moveTile(index) {
+      const emptyIndex = tiles.indexOf('');
+      const validMoves = [
+        index - 1, index + 1, // kiri & kanan
+        index - 3, index + 3  // atas & bawah
+      ];
+
+      // Batasi geser samping jika di tepi grid
+      const isSameRow = Math.floor(index / 3) === Math.floor(emptyIndex / 3);
+      const isAdjacentColumn = Math.abs(index - emptyIndex) === 1;
+
+      if (validMoves.includes(emptyIndex)) {
+        if (Math.abs(index - emptyIndex) === 1 && !isSameRow) return;
+
+        // Tukar posisi
+        [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
+        renderPuzzle();
+        checkPuzzleWin();
+      }
+    }
+
+    function checkPuzzleWin() {
+      if (tiles.join(',') === goalState) {
+        document.getElementById('puzzle-status').innerText = "Hebat! Puzzle Selesai! 🎉";
+        setTimeout(() => {
+          showSection('sec-card');
+        }, 1000);
+      }
+    }
+
+    function initPuzzle() {
+      shuffleTiles();
+      renderPuzzle();
+    }
+  </script>
+</body>
+</html>
